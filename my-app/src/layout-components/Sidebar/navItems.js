@@ -48,9 +48,14 @@ export default [
     "icon": "DashboardTwoToneIcon",
     "content": [
       {
-        "label": "Default",
+        "label": "Home",
         "description": "This is a dashboard page example built using this template.",
         "to": "/DashboardDefault"
+      },
+      {
+        "label": "Cards",
+        "description": "This is a dashboard page example built using this template.",
+        "to": "/ApexCharts"
       }
     ]
   }

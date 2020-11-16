@@ -4,40 +4,34 @@ import { ButtonGroup, Menu, MenuItem, Button } from '@material-ui/core';
 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-export default function LivePreviewExample() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function LivePreviewExample(props) {
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <Fragment>
       <ButtonGroup
         variant="contained"
         color="primary"
         aria-label="split button">
-        <Button>Split button</Button>
+        <Button>{props.dropDown}</Button>
         <Button
           color="primary"
           size="small"
           aria-haspopup="true"
-          onClick={handleClick}>
+          onClick={props.handleClick}>
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
       <Menu
         id="simple-menu2"
-        anchorEl={anchorEl}
+        anchorEl={props.anchorEl}
         keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}>
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        open={Boolean(props.anchorEl)}
+        onClose={props.handleClose}>
+        {
+          props.arr.map(e => {
+            return (<MenuItem id={e} onClick={props.onClick}>{e}</MenuItem>)
+          })
+        }
       </Menu>
     </Fragment>
   );

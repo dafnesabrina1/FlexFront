@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 
 import DashboardDefaultSection1 from '../../example-components/DashboardDefault/DashboardDefaultSection1';
-import DashboardDefaultSection2 from '../../example-components/DashboardDefault/DashboardDefaultSection2';
-import DashboardDefaultSection3 from '../../example-components/DashboardDefault/DashboardDefaultSection3';
-import DashboardDefaultSection4 from '../../example-components/DashboardDefault/DashboardDefaultSection4';
+import DashboardDefaultSection5 from '../../example-components/DashboardDefault/DashboardDefaultSection5';
+import { PageTitle } from '../../layout-components';
 
 import {
   Dialog,
@@ -14,12 +13,16 @@ import {
 } from '@material-ui/core';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import XLSX from 'xlsx';
-import { withLeaflet } from 'react-leaflet';
 
 export default function DashboardDefault() {
   const [open3, setOpen3] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
   const [file, setFile] = React.useState();
+  const [failed, setFailed] = React.useState([]);
+  const [passed, setPassed] = React.useState([]);
+  const [products, setProducts] = React.useState([]);
+  const [loadingFailed, setLoadingFailed] = React.useState(true);
+  const [loadingPassed, setLoadingPassed] = React.useState(true);
 
   const handleClickOpen3 = scrollType => () => {
     setOpen3(true);
@@ -36,7 +39,31 @@ export default function DashboardDefault() {
   };
 
   const descriptionElementRef = React.useRef(null);
+  
   React.useEffect(() => {
+    fetch('http://0.0.0.0:4000/get_failed_results')
+    .then(res => res.json())
+    .then((data) => {
+      console.log(data);
+      setFailed(data);
+      setLoadingFailed(false);
+    })
+
+    fetch('http://0.0.0.0:4000/get_passed_results')
+    .then(res => res.json())
+    .then((data) => {
+      console.log(data);
+      setPassed(data);
+      setLoadingPassed(false);
+    })
+
+    fetch('http://0.0.0.0:4000/get_all_tests')
+    .then(res => res.json())
+    .then((data) => {
+      console.log(data);
+      setProducts(data);
+    })
+
     if (open3) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
@@ -84,10 +111,12 @@ export default function DashboardDefault() {
 
   return (
     <Fragment>
-      <DashboardDefaultSection1 />
-      <DashboardDefaultSection2 />
-      <DashboardDefaultSection3 />
-      <DashboardDefaultSection4 />
+      <PageTitle
+        titleHeading="Overall Analisis"
+        titleDescription="Here you will be able to check the group analysis of the nodes registered"
+      />
+      <DashboardDefaultSection1 failed={failed} passed={passed} loadingPassed={loadingPassed} loadingFailed={loadingFailed}/>
+      <DashboardDefaultSection5 products={products}/>
       <Button
       className="m-2 button-add"
       variant="contained"

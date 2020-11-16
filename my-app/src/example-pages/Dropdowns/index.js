@@ -23,7 +23,7 @@ export default function Dropdowns() {
         </Grid>
         <Grid item xs={12} lg={6}>
           <ExampleWrapperSimple sectionHeading="Split">
-            <DropdownsSplit />
+            <DropdownsSplit arr={["Profile", "My account", "Logout"]} />
           </ExampleWrapperSimple>
         </Grid>
       </Grid>

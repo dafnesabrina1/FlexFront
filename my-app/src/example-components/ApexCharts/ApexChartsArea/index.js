@@ -2,20 +2,27 @@ import React, { Fragment } from 'react';
 
 import Chart from 'react-apexcharts';
 
-export default function LivePreviewExample() {
+export default function LivePreviewExample(props) {
+
   const options = {
     xaxis: {
-      categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
+      categories: props.x
+    },
+    yaxis: [
+      {
+        min: 0,
+        max: props.maxy
+      },
+    ]
   };
   const series = [
     {
-      name: 'series-1',
-      data: [30, 40, 25, 50, 49, 21, 70, 51]
+      name: 'Normal Distribution',
+      data: props.y
     },
     {
-      name: 'series-2',
-      data: [23, 12, 54, 61, 32, 56, 81, 19]
+      name: 'Test Result',
+      data: props.data
     }
   ];
 
